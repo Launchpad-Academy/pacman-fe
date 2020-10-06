@@ -56,7 +56,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     backgroundColor:"#1ed69e",
     color:"#ffffff",
-    border: "0.5 #1ed69e"
+    borderRadius: "0.5rem",
+    fontSize: 18
   },
   developMessage: {
     position: "absolute",
@@ -220,7 +221,7 @@ export const Login = () => {
           justify="center"
           alignItems="center"
           >
-          <Paper className={classes.paper}>
+          <Paper className={classes.paper} elevation={0}>
             <form noValidate>
             <Grid container direction="row" justify="center" alignItems="center" spacing={0}>
               <Grid item xs={2}>
@@ -303,25 +304,24 @@ export const Login = () => {
               <RegularButton
                 fullWidth
                 variant="contained"
-                round="true"
                 className={classes.buttons}
                 onClick={validationCheck}
               >
                 Login
-                <img style={{width: 18, height: 18, marginLeft:"15px"}} src={RightArrowIcon} alt="right arrow icon"/>
+                <img style={{width: 20, height: 20, marginLeft:"15px", marginBottom:"2px"}} src={RightArrowIcon} alt="right arrow icon"/>
               </RegularButton>
-              <RegularButton round="true" fullWidth variant="contained" className={classes.buttons} component={Link} to='/register'>Create An Account</RegularButton>
+              <RegularButton fullWidth variant="contained" className={classes.buttons} component={Link} to='/register'>Create An Account</RegularButton>
             </form>
           </Paper>
         </Grid>
 
-        {/* <Grid item xs={12} className={classes.developMessage}>
+        <Grid item xs={12} className={classes.developMessage}>
           <Box mt={5}>
             <Typography variant="body2" color="textSecondary" align="center">
                 
             </Typography>
           </Box>
-        </Grid> */}
+        </Grid>
       </Grid>
     </MuiThemeProvider>
   );
