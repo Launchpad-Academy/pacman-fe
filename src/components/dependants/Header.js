@@ -6,6 +6,7 @@ import { SideMenuItems } from './SideMenuItems';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { LayoutConfig } from 'configurations';
+import SettingsIcon from '@material-ui/icons/Settings'
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -13,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 24, // keep right padding when drawer closed
   },
   appBar: {
+    backgroundColor: "transparent",
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -99,7 +101,7 @@ export const Header = () => {
         <Toolbar className={classes.toolbar}>
           {isItDesktop ? LayoutConfig.sideMenu.permanent ? null : < IconButton
             edge="start"
-            color="inherit"
+            // color="inherit"
             aria-label="Open drawer"
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
@@ -108,10 +110,12 @@ export const Header = () => {
           </IconButton> : null}
           {
             headerElements !== null ? headerElements :
-              <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+              <Typography component="h1" variant="h6" noWrap className={classes.title}>
                 {pageTitle}
               </Typography>
           }
+
+          <SettingsIcon style={{color:"#1ed69e"}}/>
         </Toolbar>
       </AppBar>
       {

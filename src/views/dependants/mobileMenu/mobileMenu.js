@@ -22,8 +22,8 @@ const useStyles = makeStyles(theme => ({
   menuTitle: {
     paddingTop: '5vh',
     paddingBottom: '5vh',
-    backgroundColor: theme.palette.primary.main,
-    color: 'white',
+    backgroundColor: 'transparent',
+    color: '#ffffff',
     boxShadow: '0 1px rgba(76,45,45,0.80)'
   },
   logoutButton: {
@@ -45,6 +45,7 @@ export const MobileMenu = () => {
   let menuButtonLabel = (LayoutConfig.menuButtonLabel !== undefined ?
     LayoutConfig.menuButtonLabel !== '' ? LayoutConfig.menuButtonLabel : 'menu'
     : 'menu');
+
   let logoutButton = (data, key) => {
     return (<div key={'menu_button' + key}>
       {items.length > 0 ? <Divider /> : null}
@@ -52,10 +53,11 @@ export const MobileMenu = () => {
         <Icon>
           {data.icon !== undefined ? data.icon : 'logout'}
         </Icon>
-        <ListItemText className={classes.menuItemText} primary={data.name !== undefined ? data.name : 'Logout'} />
+        <ListItemText className={classes.menuItemText} primary={data.name !== undefined ? data.name : 'logout'} />
       </ListItem>
     </div >);
   };
+  
   let isItDesktop = useMediaQuery('(min-width:600px) or (min-height:600px)');
   if (isItDesktop)
     return <Redirect to='/' />;

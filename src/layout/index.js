@@ -49,7 +49,7 @@ export const Layout = (props) => {
         fontFamily: "Arial Rounded MT, Helvetica, sans-serif",
         fontWeight: "bold",
         fontSize: 18,
-        color: "white"
+        color: "#1ed69e"
       },
       body1: {
         fontFamily: "Arial Unicode MS, Helvetica, sans-serif",

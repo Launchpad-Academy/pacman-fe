@@ -7,24 +7,24 @@
       "type": "button",
       "icon": "home",
       "controller": "/home",
-      "customTitle": "Welcome",
+      "customTitle": "HOME",
       "isFavourite": true,
       "subMenuItems": []
     },
     {
       "name": "PROFILE",
       "type": "button",
-      "icon": "person",
-      "customTitle": "Profile",
+      "icon": "face",
+      "customTitle": "PROFILE",
       "controller" : "/profile",
       "isFavourite" : true
     },
     {
       "name": "LEADERBOARD",
       "type": "button",
-      "icon": "code",
+      "icon": "dashboard",
       "controller": "/leaderboard",
-      "customTitle": "LeaderBoard",
+      "customTitle": "LEADER BOARD",
       "isFavourite": true,
       "subMenuItems": []
     },
@@ -41,17 +41,17 @@
   "bottomMobileNavigation": true,
   "displayMobileMenuHam": true,
   "displayMobileHeader": true,
-  "menuButtonLabel": "Menu",
+  "menuButtonLabel": "MENU",
   "sideMenu": {
     "permanent": false,
     "default": "open"
   },
   "theme": {
     "colors": {
-      "primary": "#ff9800", 
+      "primary": "#1ed69e", 
       "secondary": "#c62828",
-      "tertiary" : "#00acc1"
+      "tertiary" : "#ffffff"
     },
-    "appBarElevation": 1
+    "appBarElevation": 0
   }
 }
