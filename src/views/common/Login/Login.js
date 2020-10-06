@@ -1,6 +1,11 @@
 
 import React, { useState, useContext } from "react";
 
+import RightArrowIcon from '../../../images/right-arrow.png';
+import AppBadge from '../../../images/app-badge.png';
+import MailIcon from '../../../images/mail-icon.png';
+import PadlockIcon from '../../../images/padlock-icon.png';
+
 import { Link } from "react-router-dom";
 import {
   TextField,
@@ -29,31 +34,43 @@ const useStyles = makeStyles(theme => ({
     }
   },
   paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    padding: theme.spacing(4),
-    backgroundColor: "#242438d4"
+    backgroundColor: "transparent",
+    width: "50%",
   },
-
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+  wrapper: {
+    height: "100%",
+    width: "100%",
+    overflow: "auto",
+    margin: "auto",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
   },
   loginBox: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(10)
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
   },
   buttons: {
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(2),
+    backgroundColor:"#1ed69e",
+    color:"#ffffff",
+    borderRadius: "0.5rem",
+    fontSize: 16,
+    overflow: "auto"
   },
   developMessage: {
     position: "absolute",
     bottom: "2vh"
+  },
+  icons: {
+    width: 36,
+    height: 36,
+    marginTop: theme.spacing(4)
   }
 }));
 let applicationTheme = createMuiTheme({
@@ -178,63 +195,91 @@ export const Login = () => {
 
   let content = (
     <MuiThemeProvider theme={applicationTheme}>
-      <Grid container spacing={0} justify="center">
+      <Grid container direction="row" justify="space-around" alignItems="center" className={classes.wrapper}>
+        <Grid 
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          xs={12}
+          sm={6}
+          >
+          <img src={AppBadge} alt="App badge"/>
+          <Typography variant="h3" component="h1" style={{ fontWeight: "bold", color: "#ffffff" }}>
+            WELCOME!
+          </Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold", color: "#96a7af" }}>
+            Log in to continue
+          </Typography>
+        </Grid>
+
         <Grid
           className={classes.loginBox}
-          item
-          xs={10}
+          xs={12}
           sm={6}
-          md={4}
-          lg={3}
-          xl={2}
-        >
-          <Paper className={classes.paper}>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ fontWeight: "bold", color: "#00acc1" }}
-            >
-              Pacman
-            </Typography>
+          // md={4}
+          // lg={3}
+          // xl={2}
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          >
+          <Paper className={classes.paper} elevation={0}>
             <form noValidate>
-            <CustomInput
-                id="emailId"
-                labelText= "Email*"
-                required
-                inputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <AlternateEmailIcon />
-                    </InputAdornment>
-                  ),
-                  placeholder: "Email",
-                  type: "email",
-                  name: "email",
-                  onChange: e => setEmailId(e.target.value)
-                }}
-                formControlProps={{
-                  fullWidth: true
-                }}
-              />
-              <CustomInput
-                id="password"
-                labelText= "Password*"
-                inputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <LockOpenIcon />
-                    </InputAdornment>
-                  ),
-                  placeholder: "Password",
-                  type: "password",
-                  name: "password",
-                  onChange: e => setPassword(e.target.value)
-
-                }}
-                formControlProps={{
-                  fullWidth: true
-                }}
-              />
+            <Grid container direction="row" justify="space-evenly" alignItems="center" spacing={2}>
+              <Grid item xs={2}>
+                <img src={MailIcon} alt="Custom mail icon" className={classes.icons} />
+              </Grid>
+              <Grid item xs={10}>
+                <CustomInput
+                  id="emailId"
+                  labelText= "Email*"
+                  required
+                  inputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <AlternateEmailIcon />
+                      </InputAdornment>
+                    ),
+                    placeholder: "Email",
+                    type: "email",
+                    name: "email",
+                    onChange: e => setEmailId(e.target.value)
+                  }}
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </Grid>
+              
+              <Grid item xs={2}>
+                <img src={PadlockIcon} alt="Custom padlock icon" className={classes.icons} />
+              </Grid>
+              <Grid item xs={10}>
+                <CustomInput
+                  id="password"
+                  labelText= "Password*"
+                  inputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <LockOpenIcon />
+                      </InputAdornment>
+                    ),
+                    placeholder: "Password",
+                    type: "password",
+                    name: "password",
+                    onChange: e => setPassword(e.target.value)
+                  }}
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </Grid>
+            </Grid>
+            
+            
+              
                
               {/* <TextField
                 variant="outlined"
@@ -263,13 +308,13 @@ export const Login = () => {
               <RegularButton
                 fullWidth
                 variant="contained"
-                color="info"
                 className={classes.buttons}
                 onClick={validationCheck}
               >
                 Login
+                <img style={{width: 20, height: 20, marginLeft:"15px", marginBottom:"2px"}} src={RightArrowIcon} alt="right arrow icon"/>
               </RegularButton>
-              <RegularButton  fullWidth variant="contained" color="info" className={classes.buttons} component={Link} to='/register'>Sign Up</RegularButton>
+              <RegularButton fullWidth variant="contained" className={classes.buttons} component={Link} to='/register'>Create An Account</RegularButton>
             </form>
           </Paper>
         </Grid>

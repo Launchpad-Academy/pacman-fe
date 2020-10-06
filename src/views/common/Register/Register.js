@@ -1,3 +1,4 @@
+
 /* eslint-disable quotes */
 /* eslint-disable linebreak-style */
 import React, { useState } from 'react';
@@ -9,14 +10,28 @@ import { LayoutConfig } from "configurations";
 //import { LoginContext } from 'contexts'; 
 import { API } from 'helpers';
 
+import AppBadge from '../../../images/app-badge.png';
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(6),
-    display: "flex",
+    // marginTop: theme.spacing(6),
+    // display: "flex",
     alignItems: "center",
-    padding: theme.spacing(3),
-    backgroundColor: "#242438d4"
+    // padding: theme.spacing(3),
+    backgroundColor: "transparent",
+    width: "50%"
+  },
+  wrapper: {
+    height: "100%",
+    width: "100%",
+    overflow: "auto",
+    margin: "auto",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
   },
   avatar: {
     margin: theme.spacing(1),
@@ -30,7 +45,11 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   },
   buttons: {
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(2),
+    backgroundColor:"#1ed69e",
+    color:"#ffffff",
+    borderRadius: "0.5rem",
+    fontSize: 16
   },
   developMessage: {
     position: "absolute",
@@ -96,7 +115,6 @@ let applicationTheme = createMuiTheme({
 
 export const Register = () => {
   const classes = useStyles();
-  const [pageHeading] = useState('Register');
   const [emailId, setEmailId] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -137,30 +155,45 @@ export const Register = () => {
 
   let content = (
     <MuiThemeProvider theme={applicationTheme}>
-      <Grid
-        container
-        spacing={0}
-        justify="center"
-      >
-        <Grid className={classes.registerBox} item xs={10} sm={6} md={4} lg={3} xl={2}>
-          <Paper className={classes.paper}>
-            <Grid container justify="center">
-              <Grid item xs={11}>
-                <Typography component="h1" variant="h5">
-                  {pageHeading}
-                </Typography>
-              </Grid>
-        
+      <Grid container direction="row" justify="space-around" alignItems="center" className={classes.wrapper} >
+        <Grid 
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          xs={12}
+          sm={6}
+          >
+          <img src={AppBadge} alt="App badge"/>
+          <Typography variant="h3" component="h1" style={{ fontWeight: "bold", color: "#ffffff" }}>
+            REGISTER
+          </Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold", color: "#96a7af" }}>
+            Create an account
+          </Typography>
+        </Grid>
+
+        <Grid className={classes.registerBox} 
+          // item xs={10} sm={6} md={4} lg={3} xl={2}
+          xs={12}
+          sm={6}
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          >
+          <Paper className={classes.paper} elevation={0}>
+            <Grid container justify="center">        
             
               <Grid item xs={11}>
                 <form noValidate>
-                  <TextField variant="outlined" margin="normal" required fullWidth id="firstName" label="First Name" name="firstName" autoComplete="email" onChange={e => setFirstName(e.target.value)} autoFocus />
-                  <TextField variant="outlined" margin="normal" required fullWidth id="lastName" label="Last Name" name="lastName" autoComplete="email" onChange={e => setLastName(e.target.value)} />
+                  <TextField variant="outlined" margin="normal" required fullWidth id="firstName" label="First Name" name="firstName" autoComplete="firstName" onChange={e => setFirstName(e.target.value)} autoFocus />
+                  <TextField variant="outlined" margin="normal" required fullWidth id="lastName" label="Last Name" name="lastName" autoComplete="lastName" onChange={e => setLastName(e.target.value)} />
                   <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" onChange={e => setEmailId(e.target.value)} />
                   <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" onChange={e => setPassword(e.target.value)} autoComplete="current-password" />
                   <TextField variant="outlined" margin="normal" required fullWidth name="confirmPassword" label="Confirm Password" type="password" id="confirmPassword" onChange={e => setConfirmPassword(e.target.value)} autoComplete="current-password" />
-                  <Button fullWidth variant="contained" color="primary" className={classes.buttons} onClick={validationCheck}>Register</Button>
-                  <Button fullWidth variant="contained" color="primary" className={classes.buttons} component={Link} to='/login'>Back</Button>
+                  <Button round="true" fullWidth variant="contained" color="default" className={classes.buttons} onClick={validationCheck}>Register</Button>
+                  <Button round="true" fullWidth variant="contained" color="default" className={classes.buttons} component={Link} to='/login'>Back</Button>
                 </form>
               </Grid>
             </Grid>
