@@ -1,3 +1,4 @@
+
 /* eslint-disable quotes */
 /* eslint-disable linebreak-style */
 import React, { useState } from 'react';
@@ -21,6 +22,17 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "transparent",
     width: "50%"
   },
+  wrapper: {
+    height: "100%",
+    width: "100%",
+    overflow: "auto",
+    margin: "auto",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+  },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
@@ -37,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor:"#1ed69e",
     color:"#ffffff",
     borderRadius: "0.5rem",
-    fontSize: 18
+    fontSize: 16
   },
   developMessage: {
     position: "absolute",
@@ -143,7 +155,7 @@ export const Register = () => {
 
   let content = (
     <MuiThemeProvider theme={applicationTheme}>
-      <Grid container direction="row" justify="space-around" alignItems="center" style={{marginTop:"200px"}} >
+      <Grid container direction="row" justify="space-around" alignItems="center" className={classes.wrapper} >
         <Grid 
           container
           direction="column"

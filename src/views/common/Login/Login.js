@@ -1,8 +1,6 @@
 
 import React, { useState, useContext } from "react";
 
-// import { MailIcon, PadlockIcon } from 'images';
-
 import RightArrowIcon from '../../../images/right-arrow.png';
 import AppBadge from '../../../images/app-badge.png';
 import MailIcon from '../../../images/mail-icon.png';
@@ -36,18 +34,23 @@ const useStyles = makeStyles(theme => ({
     }
   },
   paper: {
-    // marginTop: theme.spacing(8),
-    // display: "flex",
-    // flexDirection: "column",
-    // padding: theme.spacing(4),
     alignItems: "center",
     backgroundColor: "transparent",
     width: "50%",
   },
-
+  wrapper: {
+    height: "100%",
+    width: "100%",
+    overflow: "auto",
+    margin: "auto",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+  },
   loginBox: {
     width: "100%", // Fix IE 11 issue.
-    // marginTop: theme.spacing(10),
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
@@ -57,7 +60,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor:"#1ed69e",
     color:"#ffffff",
     borderRadius: "0.5rem",
-    fontSize: 18
+    fontSize: 16,
+    overflow: "auto"
   },
   developMessage: {
     position: "absolute",
@@ -191,7 +195,7 @@ export const Login = () => {
 
   let content = (
     <MuiThemeProvider theme={applicationTheme}>
-      <Grid container direction="row" justify="space-around" alignItems="center" style={{marginTop:"200px"}}>
+      <Grid container direction="row" justify="space-around" alignItems="center" className={classes.wrapper}>
         <Grid 
           container
           direction="column"
@@ -223,7 +227,7 @@ export const Login = () => {
           >
           <Paper className={classes.paper} elevation={0}>
             <form noValidate>
-            <Grid container direction="row" justify="center" alignItems="center" spacing={0}>
+            <Grid container direction="row" justify="space-evenly" alignItems="center" spacing={2}>
               <Grid item xs={2}>
                 <img src={MailIcon} alt="Custom mail icon" className={classes.icons} />
               </Grid>
