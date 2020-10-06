@@ -17,7 +17,7 @@ export const LayoutProvider = (props) => {
       }
     });
     if (_pathtoCheck[1] === 'menu') {
-      setPageTitle('Menu');
+      setPageTitle('MENU');
     }
   }, [_pathtoCheck]);
   return <LayoutContext.Provider value={{ pageTitle, setPageTitle, headerElements, setHeaderElements }} >{children}</LayoutContext.Provider>

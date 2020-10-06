@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
     bottom: '0',
     backgroundColor: 'transparent'
   },
+  bottomNavigation: {
+    backgroundColor: '#21243f'
+  },
   iOSPadding: {
     height: iOS ? theme.spacing(2) : 0
   },
@@ -68,6 +71,7 @@ export const BottomNavToolbar = () => {
     <BottomNavigation
       showLabels
       value={value}
+      className={classes.bottomNavigation}
       onChange={(event, newValue) => {
         setValue(newValue);
       }}

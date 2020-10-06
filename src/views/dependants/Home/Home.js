@@ -101,7 +101,6 @@ export const Home = () => {
   let fileUrl = useRef('');
   let fileIsValid;
   const [previewUrl,setPreviewUrl] = useState();
-  const { setHeaderElements, pageTitle } = useContext(LayoutContext);
   let [isLoading,setIsLoading] = useState(true);
   const model = [];
   const [models,setModels] = useState(model);
@@ -207,15 +206,6 @@ export const Home = () => {
       });
     });
   },[documentFile]);
-
-
-  useEffect(() => {
-    setHeaderElements(<HeaderElements>
-      <Typography>
-        {pageTitle}
-      </Typography>
-    </HeaderElements>);
-  }, [pageTitle, setHeaderElements]);
   
   return (  <MuiThemeProvider theme={applicationTheme}>
     {isLoading && <LoadingScreen loadingText="Fetching user models"></LoadingScreen>}
