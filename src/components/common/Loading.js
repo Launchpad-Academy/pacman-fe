@@ -1,14 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CircularProgress, Grid, Typography, makeStyles } from '@material-ui/core';
+import { CircularProgress, Grid, Paper, makeStyles } from '@material-ui/core';
+import AppBadge from '../../images/app-badge.png';
+
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100%',
-    width: '100%',
-    position: 'center'
+    backgroundColor: "transparent",
+    color: "#ffffff",
+    height: "100%",
+    width: "100%",
+    overflow: "auto",
+    margin: "auto",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+  },
+  badge: {
+    alignItems: "center",
+    position: "absolute"
+  },
+  loadingText: {
+    marginTop: 150,
+    position: "absolute",
+    color:"white"
   },
   pacman: {
-    position: 'relative'
+    position: 'relative',
+    marginTop: 150
   },
   pacman___div_nth_child_1: {
     width: '0',
@@ -25,28 +45,24 @@ const useStyles = makeStyles(theme => ({
   pacman___div_nth_child_3: {
     backgroundColor: '#ff9800',
     borderRadius: '50%',
-    width: '15px',
-    height: '15px',
+    width: '30px',
+    height: '30px',
     position: 'absolute',
-    top: '30px',
+    top: '25px',
     left: '55px'
   }
 }));
 export const LoadingScreen = (props) => {
   let classes = useStyles();
-  return (<Grid container spacing={0} direction={'column'} justify="center" alignItems="center" className={classes.root}>
-   
-    < Grid item className={classes.loadingCircle}>
-      <CircularProgress/>
-    </Grid>
-    <div className={classes.pacman}>
-      <div className={classes.pacman___div_nth_child_1}></div>
-      <div className={classes.pacman___div_nth_child_2}></div>
-      <div className={classes.pacman___div_nth_child_3}></div>
-    </div>
-    
+  return (
+      <Grid container spacing={0} direction={'column'} justify="center" alignItems="center" className={classes.root} >
+      
+        <img src={AppBadge} alt="app badge"/>
+        <CircularProgress/>
+        {props.loadingText}
 
-  </Grid >);
+      </Grid >
+  );
 };
 
 LoadingScreen.propTypes = {

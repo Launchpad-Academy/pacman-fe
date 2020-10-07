@@ -207,88 +207,91 @@ export const Home = () => {
     });
   },[documentFile]);
   
-  return (  <MuiThemeProvider theme={applicationTheme}>
-    {isLoading && <LoadingScreen loadingText="Fetching user models"></LoadingScreen>}
-    <Grid container justify='flex-start' direction='column' alignItems='center'>
-      <Grid item xs={12} xl={2} lg={4} md={6} sm={8}>
-        <Typography variant="h5" align="center">
-        Select the Model
-        </Typography>
-      </Grid>
+  return (  
+    <MuiThemeProvider theme={applicationTheme}>
+      {isLoading ? <LoadingScreen loadingText="Fetching User Models"></LoadingScreen> :
+        <Grid container justify='flex-start' direction='column' alignItems='center'>
+          <Grid item xs={12} xl={2} lg={4} md={6} sm={8}>
+            <Typography variant="h5" align="center">
+            Select the Model
+            </Typography>
+          </Grid>
 
-      <div className={classes.root}>
+          <div className={classes.root}>
 
-        <input accept="file/*" 
-          className={classes.input} 
-          id="contained-button-file" 
-          multiple 
-          type="file" 
-          required
-          description="document file"
-          name="documentFile"
-          onChange = {imageChangeHandler}
-        />
+            <input accept="file/*" 
+              className={classes.input} 
+              id="contained-button-file" 
+              multiple 
+              type="file" 
+              required
+              description="document file"
+              name="documentFile"
+              onChange = {imageChangeHandler}
+            />
 
-        <form noValidate>  
-          {/* Select Drop */}
+            <form noValidate>  
+              {/* Select Drop */}
 
-          <Button className={classes.button} onClick={handleOpen}>
-           Select your Model 
-          </Button>
-
-
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-controlled-open-select-label">Model</InputLabel>
-            <Select
-              labelId="demo-controlled-open-select-label"
-              id="demo-controlled-open-select"
-              open={open}
-              onClose={handleClose}
-              onOpen={handleOpen}
-              value={modelSelected}
-              onChange={handleChange}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-
-              {models.map((value, index) => {
-                return <MenuItem key={index} value={index}>{value}</MenuItem>;
-              })}
-        
-            </Select>
-          </FormControl>
-
-          <div>
-            <div>
-              {previewUrl && <img src={previewUrl} alt="Preview" width="200px" height="200px"/>}
-              {!previewUrl && !fileIsValid && <p style={{color:'#ff9800'}}>{errorText}</p>}
-            </div>
-
-            <label htmlFor="contained-button-file">
-              <Button fullWidth variant="contained" color="primary" className={classes.buttons} component="span">
-               Upload
+              <Button className={classes.button} onClick={handleOpen}>
+              Select your Model 
               </Button>
-            </label>
-          </div>
-          <br></br>
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={checked.checkedA}
-                onChange={handleChecked}
-                name="checked"
-                color="primary"
-              />
-            }
-            label="Test Against Demo User"
-          />
-          <Button fullWidth variant="contained" color="primary" className={classes.buttons} onClick={startGame}>Start</Button>
+
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-controlled-open-select-label">Model</InputLabel>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  open={open}
+                  onClose={handleClose}
+                  onOpen={handleOpen}
+                  value={modelSelected}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+
+                  {models.map((value, index) => {
+                    return <MenuItem key={index} value={index}>{value}</MenuItem>;
+                  })}
             
-        </form>
-      </div>
-    </Grid>
-  </MuiThemeProvider>);
+                </Select>
+              </FormControl>
+
+              <div>
+                <div>
+                  {previewUrl && <img src={previewUrl} alt="Preview" width="200px" height="200px"/>}
+                  {!previewUrl && !fileIsValid && <p style={{color:'#ff9800'}}>{errorText}</p>}
+                </div>
+
+                <label htmlFor="contained-button-file">
+                  <Button fullWidth variant="contained" color="primary" className={classes.buttons} component="span">
+                  Upload
+                  </Button>
+                </label>
+              </div>
+              <br></br>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked.checkedA}
+                    onChange={handleChecked}
+                    name="checked"
+                    color="primary"
+                  />
+                }
+                label="Test Against Demo User"
+              />
+              <Button fullWidth variant="contained" color="primary" className={classes.buttons} onClick={startGame}>Start</Button>
+                
+            </form>
+          </div>
+        </Grid>
+      }
+    </MuiThemeProvider>
+  );
   
 };

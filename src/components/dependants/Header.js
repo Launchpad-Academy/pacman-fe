@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   menuButton: {
+    backgroundColor: "#21243f",
     marginRight: 36,
   },
   menuButtonHidden: {
@@ -47,6 +48,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   drawerPaper: {
+    backgroundColor: "#21243f",
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
@@ -102,7 +104,6 @@ export const Header = () => {
         <Toolbar className={classes.toolbar}>
           {isItDesktop ? LayoutConfig.sideMenu.permanent ? null : < IconButton
             edge="start"
-            // color="inherit"
             aria-label="Open drawer"
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
