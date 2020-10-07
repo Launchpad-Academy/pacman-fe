@@ -6,7 +6,8 @@ import { SideMenuItems } from './SideMenuItems';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { LayoutConfig } from 'configurations';
-import SettingsIcon from '@material-ui/icons/Settings'
+import SettingsIcon from '@material-ui/icons/Settings';
+import AppBadge from '../../images/app-badge.png';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -14,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 24, // keep right padding when drawer closed
   },
   appBar: {
-    backgroundColor: "transparent",
+    backgroundColor: "#17192e",
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -30,6 +31,7 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   menuButton: {
+    backgroundColor: "#21243f",
     marginRight: 36,
   },
   menuButtonHidden: {
@@ -46,6 +48,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   drawerPaper: {
+    backgroundColor: "#21243f",
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
@@ -101,13 +104,14 @@ export const Header = () => {
         <Toolbar className={classes.toolbar}>
           {isItDesktop ? LayoutConfig.sideMenu.permanent ? null : < IconButton
             edge="start"
-            // color="inherit"
             aria-label="Open drawer"
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
             <MenuIcon />
           </IconButton> : null}
+
+          <img src={AppBadge} alt="app badge" width="40" height="40" style={{marginBottom:10, marginRight:5}} />
           {
             headerElements !== null ? headerElements :
               <Typography component="h1" variant="h6" noWrap className={classes.title}>

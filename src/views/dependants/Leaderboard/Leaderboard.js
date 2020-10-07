@@ -118,15 +118,17 @@ export const Leaderboard = () => {
       setIsLoading(false);
     });
   },[]);
-
-
   
-  return( <MuiThemeProvider theme={applicationTheme}>
-    {isLoading && <LoadingScreen loadingText="Fetching Your Records"></LoadingScreen>}
+  return( 
+  <MuiThemeProvider theme={applicationTheme}>
+    {isLoading ? <LoadingScreen loadingText="Fetching Your Records"></LoadingScreen> : 
+    
+      <div className={classes.root}>    
+        <EnhancedTable data={battleResults} title={tableTitle}></EnhancedTable>
+      </div>
+    }
      
-    <div className={classes.root}>    
-      <EnhancedTable data={battleResults} title={tableTitle}></EnhancedTable>
-    </div>
+    
   </MuiThemeProvider>
   );
 };

@@ -5,11 +5,11 @@ import { Paper, Typography, Grid, ButtonBase, makeStyles } from '@material-ui/co
 import { API } from 'helpers';
 import UserDemo from '../../../images/demoUser.png';
 import { LoadingScreen } from 'components';
-import SportsKabaddiIcon from '@material-ui/icons/SportsKabaddi';
-import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
-import AssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import { LayoutConfig } from "configurations";
+import FlagIcon from '../../../images/flag.png';
+import BattleIcon from '../../../images/battle.png';
+import TrophyIcon from '../../../images/topranking-grey.png';
 
 
 const useStyles = makeStyles(theme => ({
@@ -28,11 +28,42 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     alignItems: "center",
     padding: theme.spacing(4),
-    backgroundColor: "#242438d4",
+    backgroundColor: "transparent",
     margin: 'auto',
     maxWidth: 500,
   },
+  userPaper: {
+    backgroundColor: "#21243f",
+    borderRadius: "1rem",
+    display: "flex",
+    margin: "auto",
+    alignItems: "center",
+    width: "100%"
+  },
+  matchesPaper: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: "#227966",
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    margin: "auto",
+    alignItems: "center"
+  },
+  wonPaper: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: "#2c157b",
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    margin: "auto",
+    alignItems: "center"
+  },
   image: {
+    display: "flex",
+    margin: "auto",
+    alignItems: "center",
     width: 128,
     height: 128,
   },
@@ -41,7 +72,26 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     maxWidth: '100%',
     maxHeight: '100%',
+    width: 88,
+    height: 88
   },
+  battleIcon: {
+    width: 64,
+    height: 64,
+    display: "flex",
+    margin: "auto",
+    alignItems: "center"
+  },
+  trophyIcon: {
+    width: 72,
+    height: 72,
+    display: "flex",
+    margin: "auto",
+    alignItems: "center"
+  },
+  border: {
+    borderLeft: "2px solid #1ed69e"
+  }
 }));
 
 let applicationTheme = createMuiTheme({
@@ -71,32 +121,39 @@ let applicationTheme = createMuiTheme({
   typography: {
     h6: {
       fontFamily: "Arial Rounded MT, Helvetica, sans-serif",
-      fontWeight: "bold",
-      fontSize: 18,
-      color: "white"
+      fontWeight: "light",
+      fontSize: 14,
+      color: "#1ed69e"
     },
     body1: {
-      fontFamily: "Arial Unicode MS, Helvetica, sans-serif",
-      fontSize: 16,
-      color: "#d0d0d0"
+      fontFamily: "Helvetica, sans-serif", 
+      fontSize: 46, 
+      fontWeight: "bold", 
+      color:'#4824ba',
+      textAlign: "center"
     },
-    body2: { fontFamily: "Helvetica, sans-serif", fontSize: 12, color:'white' },
+    body2: { 
+      fontFamily: "Helvetica, sans-serif", 
+      fontSize: 46, 
+      fontWeight: "bold", 
+      color:'#1ed69e' ,
+      textAlign: "center"
+    },
     caption: {
-      color: "#d0d0d0 ",
-      fontSize: "12px ",
+      color: "#ffffff",
+      fontSize: 24,
       fontFamily: "Helvetica, sans-serif"
     },
-    h5: {
-      fontFamily: "Arial Rounded MT, Helvetica, sans-serif",
+    h4: {
+      fontFamily: "Helvetica, sans-serif",
       fontWeight: "bold",
-      fontSize: 21,
-      color: "#00acc1"
+      fontSize: 28,
+      color: "#ffffff"
     },
     subtitle1: {
-      fontFamily: "Arial Rounded MT, Helvetica, sans-serif",
-      fontWeight: "bold",
-      fontSize: 10,
-      color: "white"
+      color: "#ffffff",
+      fontSize: 18,
+      fontFamily: "Helvetica, sans-serif"
     }
   }
 });
@@ -116,78 +173,86 @@ export const Profile = () => {
   
   useEffect(()=>{
     API.getUserDetails((res)=>{
+      setIsLoading(false);
       headerRef.current.innerHTML= res.data.data.customerData.firstName;
       matchesPlayedRef.current.innerHTML = res.data.data.customerAdditionalData.matchesPlayed;
       matchesWonRef.current.innerHTML = res.data.data.customerAdditionalData.matchesWon;
       highestScoreRef.current.innerHTML = res.data.data.customerAdditionalData.highestScore;
-      setIsLoading(false);
     });
   },[]);
   
   return(<MuiThemeProvider theme={applicationTheme}>
-    {isLoading && <LoadingScreen loadingText="Fetching Your Profile"></LoadingScreen>}
-    <div className={classes.root}>  
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-       
-          <Grid item xs={12} sm container>
-            <Grid item xs={4}>
-              <ButtonBase className={classes.image}>
-                <img className={classes.img} alt="complex" src={UserDemo} />
-              </ButtonBase>
-            </Grid>
+    {isLoading ? <LoadingScreen loadingText="Fetching Your Profile"></LoadingScreen> :
+      <div className={classes.root}>  
+        <Paper className={classes.paper} elevation={0}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm container>
+              <Grid item xs={12} sm container direction="row" alignItems="center">
 
-            
-            {/* <Grid item>
-              <Typography variant="subtitle1" ref={highestScoreRef}/>
-            </Grid> */}
-              
+                <Grid item xs container direction="row" alignItems="center" style={{margin:"auto", padding: 8}}>
+                  <Grid item xs={12}>
+                    <Typography variant="h6" gutterBottom>Welcome Back!</Typography>
+                  </Grid>
 
-            <Grid item xs={8} sm container direction="column" spacing={2}>
-              <Grid item xs container direction="row">
-                <Grid item xs={8}>
-                  <Typography gutterBottom variant="h5" ref={headerRef}/>
-                </Grid>
-                <Grid item xs={4}>
-                  <Grid item xs container direction="row">
-                    <Grid item xs={3}>
-                      <AssistantPhotoIcon/>
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography variant="h6" ref={highestScoreRef}/>
-                    </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h4" ref={headerRef}/>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <img src={FlagIcon} alt="flag icon" width={19} height={19} style={{ marginRight:7}} />
+                    <Typography variant="caption" ref={highestScoreRef}/>
                   </Grid>
                 </Grid>
-              </Grid>
 
-              <Grid item xs container direction="row">
-                <Grid item xs={3}>
-                  <SportsKabaddiIcon/>
+                <Grid item xs={6} alignItems="center" className={classes.border}>
+                  <ButtonBase className={classes.image}>
+                    <img className={classes.img} alt="complex" src={UserDemo} />
+                  </ButtonBase>
                 </Grid>
-                <Grid item xs={9}>
-                  <Typography variant="body2" gutterBottom ref={matchesPlayedRef}/>
-                </Grid>
-              </Grid>
-            
 
-              <Grid item xs container direction="row">
-                <Grid item xs={3}>
-                  <EmojiEventsIcon style={{color:'#ff9800'}}/>
-                </Grid>
-                <Grid item xs={9}>
-                  <Typography variant="body2" ref={matchesWonRef}/>
-                </Grid>
               </Grid>
-
             </Grid>
 
+            
+            <Grid container direction="row" spacing={2}>
+              <Grid item xs={12} >
+                <Typography variant="subtitle1">Overview</Typography>
+              </Grid>
+              
+              <Grid item xs={6} container >
+                <Paper className={classes.matchesPaper}>
+                  <Grid item container justify="center">
+                    <Grid item xs={6}>
+                      <img src={BattleIcon} alt="Battle icon" className={classes.battleIcon} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography variant="body2" ref={matchesPlayedRef}/>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Grid>
+
+              <Grid item xs={6} container >
+
+                <Paper className={classes.wonPaper}>
+                  <Grid item container justify="center">
+                    <Grid item xs={6}>
+                      <img src={TrophyIcon} alt="Trophy icon" className={classes.trophyIcon} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography variant="body1" ref={matchesWonRef}/>
+                    </Grid>
+                  </Grid>
+                </Paper>
+
+              </Grid>
+            </Grid>
           </Grid>
 
-        </Grid>
-
-        
-      </Paper>
-    </div>
+          
+        </Paper>
+      </div>
+    }
   </MuiThemeProvider>
   );
 };
