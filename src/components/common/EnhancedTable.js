@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, TablePagination, Checkbox, IconButton, makeStyles, Toolbar, Button, Grid, Switch } from '@material-ui/core';
-import { Dialog, DialogTitle, ButtonBase, Container} from '@material-ui/core';
+import { Dialog, DialogTitle, ButtonBase, Container, useMediaQuery} from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -30,7 +30,20 @@ const useStyles = makeStyles(theme => ({
   tableHead:{
     color: '#ff9800',
     fontSize: '22px',
-    fontWeight: '600'
+    fontWeight: '600',
+    fontFamily: "Arial Rounded MT, Helvetica, sans-serif",
+    border: "none"
+  },
+  noBorders: {
+    border: "none"
+  },
+  tableRow: {
+    backgroundColor: "#21243f",
+    paddingTop: 5,
+    borderRadius: "1rem",
+    borderCollapse: "separate",
+    borderSpacing: "0 15px"
+    // width: "inherit"
   },
   table: {
     minWidth: 650,
@@ -40,7 +53,8 @@ const useStyles = makeStyles(theme => ({
   },
   tablePagination :{
     backgroundColor: 'transparent',
-    maxWidth: "100%"
+    display: "block",
+    width: "100%",
   },
   title: {
     flex: '0 0 auto',
@@ -322,28 +336,35 @@ export const EnhancedTable = (props) => {
   //Render the Highlighs here
   const RenderRow = (props) => {
     let [openDialog, setOpenDialog] = useState(false);
-    const classes = useStyles()
+    // let [videoHeight, setVideoHeight] = useState(400);
+    const classes = useStyles();
+    const theme = useTheme();
+    const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
     return props.keys.map((key) => {
       return (
-      <TableCell style={props.styles !== undefined ? props.styles.tableCell !== undefined ? props.styles.tableCell : null : null} key={Math.random()}>
-        <Typography varient="body1">
-          {Array.isArray(props.data[key]) ? breakObject(props.data[key]) : key == "Highlights" 
-          ? <React.Fragment>
-              <ButtonBase onClick={() => setOpenDialog(true)} > 
-                <img src={VideoIcon} alt="video icon" width="56" height="56" />
-              </ButtonBase>
-              <Dialog aria-labelledby="simple-dialog-title" open={openDialog} onClose={() => setOpenDialog(false)}>
-                <DialogTitle id="simple-dialog-title">Highlight Video</DialogTitle>
-                  
-                  <video src={String(props.data[key])} width="inherit" height="200" controls />
-                  <br></br>
-                  <a href={String(props.data[key])} style={{color:'white', textAlign:'center', fontSize:'17px'}}>Download Highlights</a>
-              </Dialog>
-            </React.Fragment>
-          : String(props.data[key])}
-        </Typography>
-      </TableCell>);
+        <TableCell className={classes.noBorders} style={props.styles !== undefined ? props.styles.tableCell !== undefined ? props.styles.tableCell : null : null} key={Math.random()}>
+            <Typography varient="body1">
+              {Array.isArray(props.data[key]) ? breakObject(props.data[key]) : key == "Highlights" 
+              ? <React.Fragment>
+                  <ButtonBase onClick={() => setOpenDialog(true)} > 
+                    <img src={VideoIcon} alt="video icon" width="56" height="56" />
+                  </ButtonBase>
+                  <Dialog aria-labelledby="simple-dialog-title" open={openDialog} onClose={() => setOpenDialog(false)}>
+                    <DialogTitle id="simple-dialog-title">Highlight Video</DialogTitle>
+                    {smallScreen ? 
+                      <video src={String(props.data[key])} width="inherit" height={200} controls />
+                      :
+                      <video src={String(props.data[key])} width="inherit" height="inherit" controls />
+                    }
+                      <br></br>
+                      <a href={String(props.data[key])} style={{color:'white', textAlign:'center', fontSize:'17px'}}>Download Highlights</a>
+                  </Dialog>
+                </React.Fragment>
+              : String(props.data[key])}
+            </Typography>
+        </TableCell>
+      );
     });
   };
 
@@ -405,14 +426,16 @@ export const EnhancedTable = (props) => {
     return data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
       //Important Manipulation Step
       return (
-        <TableRow key={Math.random()}>
+        <TableRow key={Math.random()} className={classes.tableRow} >
           {(props.options !== undefined ? props.options.selector ? (props.options.toolbarActions !== undefined ? <TableCell style={props.styles !== undefined ? props.styles.tableCell !== undefined ? props.styles.tableCell : null : null} key={index + "select"}><Selector
             selectedObject={obj[index]}
           /></TableCell> : null) : null : null)}
           {(props.options !== undefined ? props.options.actionLocation === 'start' ? (props.options.actions !== undefined ? renderActions(obj[index]) : null) : null : null)}
-          <RenderRow key={Math.random()} page={page} data={row} keys={_keys} />
+            <RenderRow key={Math.random()} page={page} data={row} keys={_keys} />
           {(props.options !== undefined ? props.options.actionLocation !== 'start' ? (props.options.actions !== undefined ? renderActions(obj[index]) : null) : null : null)}
-        </TableRow>);
+        </TableRow>
+
+      );
     });
   };
 
