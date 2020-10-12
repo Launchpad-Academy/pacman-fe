@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
-import { Grid, Typography, Button, makeStyles } from '@material-ui/core';
+import { Grid, Typography, Button, makeStyles, withStyles, Paper, Container, InputAdornment, IconButton } from '@material-ui/core';
 import { HeaderElements } from 'components';
 import { LayoutContext } from 'contexts';
 import FileIcon from '../../../images/file.png';
@@ -14,7 +14,7 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import { LayoutConfig } from "configurations";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import UploadIcon from '../../../images/upload.png';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,14 +25,37 @@ const useStyles = makeStyles(theme => ({
   input: {
     display: 'none',
   },
-  button: {
+  buttons: {
     display: 'block',
     marginTop: theme.spacing(2),
   },
+  startButton: {
+    display: 'block',
+    marginTop: theme.spacing(2),
+    overflow: "auto",
+    margin: "auto",
+    position: "flex",
+  },
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  }
+    margin: 0,
+    fullWidth: true,
+    display: 'flex',
+    wrap: 'nowrap'
+  },
+  paper: {
+    backgroundColor: "#21243f",
+    overflow: "auto",
+    margin: "auto",
+    position: "flex",
+    width: "60%",
+  },
+  testCheckBox: {
+    color: "#96a7af"
+  },
+  icon: {
+    fill: "#1ed69e",
+  },
+  
 }));
 
 let applicationTheme = createMuiTheme({
@@ -57,6 +80,18 @@ let applicationTheme = createMuiTheme({
               : null
             : null
           : null
+    }
+  },
+  overrides: {
+    MuiFormControl: {
+      root: {
+        outline: "red"
+      }
+    }
+  },
+  formControl: {
+    outlined: {
+      borderColor: "red"
     }
   },
   typography: {
@@ -97,7 +132,7 @@ export const Home = () => {
   const classes = useStyles();
   const [documentFile,setDocumentFile] = useState('');
   const [isValid,setIsValid] = useState(true);
-  const errorText='or Upload a new Model';
+  const errorText='Upload Model';
   let fileUrl = useRef('');
   let fileIsValid;
   const [previewUrl,setPreviewUrl] = useState();
@@ -113,6 +148,16 @@ export const Home = () => {
   const [checked,setChecked] = useState({
     checkedA: false
   });
+
+  const GreenCheckbox = withStyles({
+    root: {
+      color: "#96a7af",
+      '&$checked': {
+        color: "#1ed69e",
+      },
+    },
+    checked: {},
+  })((props) => <Checkbox color="default" {...props} />);
 
   const handleChange = (event) => {
     setModelSelected(event.target.value);
@@ -210,46 +255,29 @@ export const Home = () => {
   return (  
     <MuiThemeProvider theme={applicationTheme}>
       {isLoading ? <LoadingScreen loadingText="Fetching User Models"></LoadingScreen> :
-        <Grid container justify='flex-start' direction='column' alignItems='center'>
-          <Grid item xs={12} xl={2} lg={4} md={6} sm={8}>
-            <Typography variant="h5" align="center">
-            Select the Model
-            </Typography>
-          </Grid>
 
-          <div className={classes.root}>
-
-            <input accept="file/*" 
-              className={classes.input} 
-              id="contained-button-file" 
-              multiple 
-              type="file" 
-              required
-              description="document file"
-              name="documentFile"
-              onChange = {imageChangeHandler}
-            />
-
-            <form noValidate>  
-              {/* Select Drop */}
-
-              <Button className={classes.button} onClick={handleOpen}>
-              Select your Model 
-              </Button>
-
-
-              <FormControl className={classes.formControl}>
-                <InputLabel id="demo-controlled-open-select-label">Model</InputLabel>
+        <Paper className={classes.paper} >
+          <Grid container justify='flex-start' direction='row' alignItems='center' className={classes.root}>
+            <Grid item xs={12} xl={2} lg={4} md={6} sm={8}>
+  
+            <div className={classes.root}>
+              <FormControl className={classes.formControl} variant="outlined">
+                <InputLabel htmlFor="demo-controlled-open-select">Select your model</InputLabel>
                 <Select
-                  labelId="demo-controlled-open-select-label"
                   id="demo-controlled-open-select"
                   open={open}
                   onClose={handleClose}
                   onOpen={handleOpen}
                   value={modelSelected}
                   onChange={handleChange}
+                  inputProps={{
+                    classes: {
+                      icon: classes.icon,
+                    },
+                  }}
+                  labelWidth={130}
                 >
-                  <MenuItem value="">
+                  <MenuItem aria-label="None" value="None">
                     <em>None</em>
                   </MenuItem>
 
@@ -261,35 +289,47 @@ export const Home = () => {
               </FormControl>
 
               <div>
-                <div>
-                  {previewUrl && <img src={previewUrl} alt="Preview" width="200px" height="200px"/>}
-                  {!previewUrl && !fileIsValid && <p style={{color:'#ff9800'}}>{errorText}</p>}
+                  <div>
+                    {previewUrl && <img src={previewUrl} alt="Preview" width="200px" height="200px"/>}
+                    {!previewUrl && !fileIsValid && <p style={{color:'#96a7af'}}>{errorText}</p>}
+                  </div>                    
                 </div>
 
-                <label htmlFor="contained-button-file">
-                  <Button fullWidth variant="contained" color="primary" className={classes.buttons} component="span">
-                  Upload
-                  </Button>
-                </label>
-              </div>
-              <br></br>
+              <label htmlFor="contained-button-file">
+                <input accept="file/*" 
+                  className={classes.input} 
+                  id="contained-button-file" 
+                  multiple 
+                  type="file" 
+                  required
+                  description="document file"
+                  name="documentFile"
+                  onChange = {imageChangeHandler}
+                />
+                <img src={UploadIcon} alt="upload icon" />
+              </label>
 
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked.checkedA}
-                    onChange={handleChecked}
-                    name="checked"
-                    color="primary"
-                  />
-                }
-                label="Test Against Demo User"
-              />
-              <Button fullWidth variant="contained" color="primary" className={classes.buttons} onClick={startGame}>Start</Button>
-                
-            </form>
-          </div>
-        </Grid>
+              <form noValidate>
+                <FormControlLabel
+                  control={
+                    <GreenCheckbox
+                      checked={checked.checkedA}
+                      onChange={handleChecked}
+                      name="checked"
+                    />
+                  }
+                  label={<Typography className={classes.testCheckBox}> Test against demo user</Typography>}
+                  color="primary"
+                />
+                <Button fullWidth variant="contained" color="primary" className={classes.startButton} onClick={startGame}>Start</Button>
+                  
+              </form>
+            </div>
+            
+            </Grid>
+          </Grid>
+        </Paper>
+      // </Container>
       }
     </MuiThemeProvider>
   );

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { Paper, Typography, Grid, ButtonBase, makeStyles } from '@material-ui/core';
+import { Paper, Typography, Grid, ButtonBase, makeStyles, Container } from '@material-ui/core';
 //import { LoginContext } from 'contexts';
 //import { Image } from 'components';
 import { API } from 'helpers';
@@ -17,7 +17,9 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     flexGrow: 1,
-    margin: '20px'
+    // margin: '20px'
+    width: "100%",
+    height: "100%"
   },
   paper: {
     padding: theme.spacing(2),
@@ -123,9 +125,9 @@ export const Leaderboard = () => {
   <MuiThemeProvider theme={applicationTheme}>
     {isLoading ? <LoadingScreen loadingText="Fetching Your Records"></LoadingScreen> : 
     
-      <div className={classes.root}>    
+      <Container className={classes.root}>    
         <EnhancedTable data={battleResults} title={tableTitle}></EnhancedTable>
-      </div>
+      </Container>
     }
      
     

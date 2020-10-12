@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, TablePagination, Checkbox, IconButton, makeStyles, Toolbar, Button, Grid, Switch } from '@material-ui/core';
+import { Dialog, DialogTitle, ButtonBase, Container, useMediaQuery} from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+
+import VideoIcon from "../../images/video.png";
+
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -14,29 +18,43 @@ const useStyles = makeStyles(theme => ({
     }
   },
   root: {
-    width: '100%',
-    marginTop: theme.spacing(0),
-    overflowX: 'auto'
+    overflow: "auto",
+    margin: "auto",
+    position: "absolute",
+    backgroundColor: "#21243f"
   },
   tableWrapper: {
     overflow: 'auto',
-    maxHeight: 407
+    maxHeight: "100%"
   },
   tableHead:{
     color: '#ff9800',
     fontSize: '22px',
-    fontWeight: '600'
+    fontWeight: '600',
+    fontFamily: "Arial Rounded MT, Helvetica, sans-serif",
+    border: "none"
+  },
+  noBorders: {
+    border: "none"
+  },
+  tableRow: {
+    backgroundColor: "#21243f",
+    paddingTop: 5,
+    borderRadius: "1rem",
+    borderCollapse: "separate",
+    borderSpacing: "0 15px"
+    // width: "inherit"
   },
   table: {
     minWidth: 650,
-    backgroundColor: '#242438d4',
-    border: '2px double #00acc1'
+    backgroundColor: 'transparent',
+    alignItems: "center",
+    textAlign: "center"
   },
   tablePagination :{
-    backgroundColor: '#00acc1'
-  },
-  spacer: {
-    flex: '1 1 100%',
+    backgroundColor: 'transparent',
+    display: "block",
+    width: "100%",
   },
   title: {
     flex: '0 0 auto',
@@ -315,14 +333,38 @@ export const EnhancedTable = (props) => {
       }));
   };
 
-  //Render the Highlighs as play button here
+  //Render the Highlighs here
   const RenderRow = (props) => {
+    let [openDialog, setOpenDialog] = useState(false);
+    // let [videoHeight, setVideoHeight] = useState(400);
+    const classes = useStyles();
+    const theme = useTheme();
+    const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
     return props.keys.map((key) => {
-      return (<TableCell style={props.styles !== undefined ? props.styles.tableCell !== undefined ? props.styles.tableCell : null : null} key={Math.random()}>
-        <Typography varient="body1">
-          {Array.isArray(props.data[key]) ? breakObject(props.data[key]) : key == "Highlights" ? <><video src={String(props.data[key])} width="600" height="400" controls></video><br></br><a href={String(props.data[key])} style={{color:'white', textAlign:'center', fontSize:'17px'}}>Download Highlights</a></>: String(props.data[key])}
-        </Typography>
-      </TableCell>);
+      return (
+        <TableCell className={classes.noBorders} style={props.styles !== undefined ? props.styles.tableCell !== undefined ? props.styles.tableCell : null : null} key={Math.random()}>
+            <Typography varient="body1">
+              {Array.isArray(props.data[key]) ? breakObject(props.data[key]) : key == "Highlights" 
+              ? <React.Fragment>
+                  <ButtonBase onClick={() => setOpenDialog(true)} > 
+                    <img src={VideoIcon} alt="video icon" width="56" height="56" />
+                  </ButtonBase>
+                  <Dialog aria-labelledby="simple-dialog-title" open={openDialog} onClose={() => setOpenDialog(false)}>
+                    <DialogTitle id="simple-dialog-title">Highlight Video</DialogTitle>
+                    {smallScreen ? 
+                      <video src={String(props.data[key])} width="inherit" height={200} controls />
+                      :
+                      <video src={String(props.data[key])} width="inherit" height="inherit" controls />
+                    }
+                      <br></br>
+                      <a href={String(props.data[key])} style={{color:'white', textAlign:'center', fontSize:'17px'}}>Download Highlights</a>
+                  </Dialog>
+                </React.Fragment>
+              : String(props.data[key])}
+            </Typography>
+        </TableCell>
+      );
     });
   };
 
@@ -384,14 +426,16 @@ export const EnhancedTable = (props) => {
     return data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
       //Important Manipulation Step
       return (
-        <TableRow key={Math.random()}>
+        <TableRow key={Math.random()} className={classes.tableRow} >
           {(props.options !== undefined ? props.options.selector ? (props.options.toolbarActions !== undefined ? <TableCell style={props.styles !== undefined ? props.styles.tableCell !== undefined ? props.styles.tableCell : null : null} key={index + "select"}><Selector
             selectedObject={obj[index]}
           /></TableCell> : null) : null : null)}
           {(props.options !== undefined ? props.options.actionLocation === 'start' ? (props.options.actions !== undefined ? renderActions(obj[index]) : null) : null : null)}
-          <RenderRow key={Math.random()} page={page} data={row} keys={_keys} />
+            <RenderRow key={Math.random()} page={page} data={row} keys={_keys} />
           {(props.options !== undefined ? props.options.actionLocation !== 'start' ? (props.options.actions !== undefined ? renderActions(obj[index]) : null) : null : null)}
-        </TableRow>);
+        </TableRow>
+
+      );
     });
   };
 
@@ -453,7 +497,6 @@ export const EnhancedTable = (props) => {
               </Typography>
             }
           </div>
-          <div className={classes.spacer} />
           <Grid container spacing={1} direction="row" justify="flex-end" alignItems="flex-end">
             {props.options.toolbarActions !== undefined ?
               props.options.toolbarActions.map((value, i) => {
@@ -470,58 +513,60 @@ export const EnhancedTable = (props) => {
 
   if (typeof obj === 'object') {
     let content = (
-      <Paper className={classes.root} style={props.styles !== undefined ? props.styles.paper !== undefined ? props.styles.paper : null : null}>
-        {createBar()}
-        <div className={classes.tableWrapper}>
-          <Table stickyHeader={props.options !== undefined ? props.options.selector ? true : false : false} className={classes.table} style={props.styles !== undefined ? props.styles.table !== undefined ? props.styles.table : null : null}>
-            <TableHead style={props.styles !== undefined ? props.styles.tableHead !== undefined ? props.styles.tableHead : null : null}>
-              <TableRow style={props.styles !== undefined ? props.styles.tableRow !== undefined ? props.styles.tableRow : null : null}>
-                {(props.options !== undefined ? props.options.selector ? (props.options.toolbarActions !== undefined ? <Heading key={Math.random()} value={'selection'} style={props.styles !== undefined ? props.styles.heading !== undefined ? props.styles.heading : null : null} /> : null) : null : null)}
-                {(props.options !== undefined ? props.options.actionLocation === 'start' ? (props.options.actions !== undefined ? renderActionHeaders() : null) : null : null)}
-                {renderHeader()}
-                {(props.options !== undefined ? props.options.actionLocation !== 'start' ? (props.options.actions !== undefined ? renderActionHeaders() : null) : null : null)}
-              </TableRow>
-            </TableHead>
-            <TableBody className={classes.tableBody} style={props.styles !== undefined ? props.styles.tableBody !== undefined ? props.styles.tableBody : null : null}>
-              {(obj !== undefined && obj !== null ? getRowsData(obj) : null)}
-              {renderEmptyRows()}
-            </TableBody>
-          </Table>
-        </div>
-        {props.options !== undefined ? props.options.disablePagination ? null :
-          <TablePagination
-            component="div"
-            className={classes.tablePagination}
-            style={props.styles !== undefined ? props.styles.tablePagination !== undefined ? props.styles.tablePagination : null : null}
-            rowsPerPageOptions={rowsPerPageOptions}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-            onChangePage={() => { }}
-            count={(obj !== undefined && obj !== null ? obj.length : 0)}
-            SelectProps={{
-              inputProps: { 'aria-label': 'rows per page' },
-              native: true
-            }}
-            ActionsComponent={TablePaginationActions}
-          /> :
-          <TablePagination
-            component="div"
-            className={classes.tablePagination}
-            style={props.styles !== undefined ? props.styles.tablePagination !== undefined ? props.styles.tablePagination : null : null}
-            rowsPerPageOptions={rowsPerPageOptions}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-            onChangePage={() => { }}
-            count={(obj !== undefined && obj !== null ? obj.length : 0)}
-            SelectProps={{
-              inputProps: { 'aria-label': 'rows per page' },
-              native: true
-            }}
-            ActionsComponent={TablePaginationActions}
-          />}
-      </Paper>
+      <Container>
+        {/* <Paper className={classes.root} style={props.styles !== undefined ? props.styles.paper !== undefined ? props.styles.paper : null : null}> */}
+          {/* {createBar()} */}
+          <div className={classes.tableWrapper}>
+            <Table stickyHeader={props.options !== undefined ? props.options.selector ? true : false : false} className={classes.table} style={props.styles !== undefined ? props.styles.table !== undefined ? props.styles.table : null : null}>
+              <TableHead style={props.styles !== undefined ? props.styles.tableHead !== undefined ? props.styles.tableHead : null : null}>
+                <TableRow style={props.styles !== undefined ? props.styles.tableRow !== undefined ? props.styles.tableRow : null : null}>
+                  {(props.options !== undefined ? props.options.selector ? (props.options.toolbarActions !== undefined ? <Heading key={Math.random()} value={'selection'} style={props.styles !== undefined ? props.styles.heading !== undefined ? props.styles.heading : null : null} /> : null) : null : null)}
+                  {(props.options !== undefined ? props.options.actionLocation === 'start' ? (props.options.actions !== undefined ? renderActionHeaders() : null) : null : null)}
+                  {renderHeader()}
+                  {(props.options !== undefined ? props.options.actionLocation !== 'start' ? (props.options.actions !== undefined ? renderActionHeaders() : null) : null : null)}
+                </TableRow>
+              </TableHead>
+              <TableBody className={classes.tableBody} style={props.styles !== undefined ? props.styles.tableBody !== undefined ? props.styles.tableBody : null : null}>
+                {(obj !== undefined && obj !== null ? getRowsData(obj) : null)}
+                {renderEmptyRows()}
+              </TableBody>
+            </Table>
+          </div>
+          {props.options !== undefined ? props.options.disablePagination ? null :
+            <TablePagination
+              component="div"
+              className={classes.tablePagination}
+              style={props.styles !== undefined ? props.styles.tablePagination !== undefined ? props.styles.tablePagination : null : null}
+              rowsPerPageOptions={rowsPerPageOptions}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+              onChangePage={() => { }}
+              count={(obj !== undefined && obj !== null ? obj.length : 0)}
+              SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true
+              }}
+              ActionsComponent={TablePaginationActions}
+            /> :
+            <TablePagination
+              component="div"
+              className={classes.tablePagination}
+              style={props.styles !== undefined ? props.styles.tablePagination !== undefined ? props.styles.tablePagination : null : null}
+              rowsPerPageOptions={rowsPerPageOptions}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+              onChangePage={() => { }}
+              count={(obj !== undefined && obj !== null ? obj.length : 0)}
+              SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true
+              }}
+              ActionsComponent={TablePaginationActions}
+            />}
+        {/* </Paper> */}
+      </Container>
     );
     return content;
   }

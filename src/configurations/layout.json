@@ -49,7 +49,7 @@
   "theme": {
     "colors": {
       "primary": "#1ed69e", 
-      "secondary": "#c62828",
+      "secondary": "#96a7af",
       "tertiary" : "#ffffff"
     },
     "appBarElevation": 0
