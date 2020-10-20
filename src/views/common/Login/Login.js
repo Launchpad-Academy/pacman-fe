@@ -197,10 +197,12 @@ export const Login = () => {
     <MuiThemeProvider theme={applicationTheme}>
       <Grid container direction="row" justify="space-around" alignItems="center" className={classes.wrapper}>
         <Grid 
-          container
+          container item
           direction="column"
           justify="center"
           alignItems="center"
+          xs={12}
+          sm={6}
           >
           <img src={AppBadge} alt="App badge"/>
           <Typography variant="h3" component="h1" style={{ fontWeight: "bold", color: "#ffffff" }}>
@@ -213,7 +215,12 @@ export const Login = () => {
 
         <Grid
           className={classes.loginBox}
-          container
+          xs={12}
+          sm={6}
+          // md={4}
+          // lg={3}
+          // xl={2}
+          container item
           direction="column"
           justify="center"
           alignItems="center"
