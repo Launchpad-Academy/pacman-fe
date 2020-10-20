@@ -197,7 +197,7 @@ export const Login = () => {
     <MuiThemeProvider theme={applicationTheme}>
       <Grid container direction="row" justify="space-around" alignItems="center" className={classes.wrapper}>
         <Grid 
-          container
+          item
           direction="column"
           justify="center"
           alignItems="center"
